@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import CreatePostDto from "./dto/createPost.dto";
 import UpdatePostDto from "./dto/updatePost.dto";
 import PostsService from "./posts.service";
@@ -23,8 +23,13 @@ export default class PostsController {
   }
 
   @Patch(':id')
-  updatePost(@Param('id') id: string, @Body() post: UpdatePostDto ) {
+  async updatePost(@Param('id') id: string, @Body() post: UpdatePostDto ) {
     return this.postsService.updatePost(Number(id), post);
+  }
+
+  @Delete(':id')
+  async deletePost(@Param('id') id: string) {
+    return this.postsService.deletePost(Number(id));
   }
 
 }
