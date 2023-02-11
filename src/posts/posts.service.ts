@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import CreatePostDto from "./dto/createPost.dto";
@@ -15,6 +15,18 @@ export default class PostsService {
     const newPost = await this.postsRepository.create(post);
     await this.postsRepository.save(newPost);
     return newPost;
+  }
+
+  async getPostById(id: any) {
+    const post = await this.postsRepository.findOneBy({id});
+    if(post) {
+      return post;
+    }
+    throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+  }
+
+  getAllPosts() {
+    return this.postsRepository.find();
   }
 
 }
