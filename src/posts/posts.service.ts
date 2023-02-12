@@ -19,7 +19,7 @@ export default class PostsService {
   }
 
   async getPostById(id: number) {
-    const post = await this.postsRepository.findOneBy({id});
+    const post = await this.postsRepository.findOneBy({ id });
     if(post) {
       return post;
     }
@@ -32,7 +32,7 @@ export default class PostsService {
 
   async updatePost(id: number, post: UpdatePostDto) {
     await this.postsRepository.update(id, post);
-    const updatedPost = await this.postsRepository.findOneBy({id});
+    const updatedPost = await this.postsRepository.findOneBy({ id });
     if(updatedPost) {
       return updatedPost;
     }
