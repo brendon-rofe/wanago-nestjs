@@ -8,7 +8,7 @@ export class PostsService {
   private nextPostId = 1;
   private posts: Post[] = [];
 
-  createPost(dto: CreatePostDto) {
+  create(dto: CreatePostDto) {
     const newPost: Post = {
       id: this.nextPostId,
       title: dto.title,
@@ -16,6 +16,10 @@ export class PostsService {
     };
     this.posts.push(newPost);
     return { message: 'New post created', post: newPost };
+  };
+
+  getAll(): Post[] {
+    return this.posts;
   };
 
 };
