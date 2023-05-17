@@ -15,6 +15,7 @@ export class PostsService {
       content: dto.content
     };
     this.posts.push(newPost);
+    this.nextPostId++;
     return { message: 'New post created', post: newPost };
   };
 
