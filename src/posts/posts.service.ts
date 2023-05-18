@@ -22,11 +22,16 @@ export class PostsService {
     const post = await this.postsRepository.findOneBy({ id: id });
     if(!post) {
       throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
-    }
+    };
     return post;
   };
 
-  updatePost(id: number, updatedPost: CreatePostDto) {
+  async updatePost(id: number, updatedPost: CreatePostDto) {
+    const post = await this.postsRepository.findOneBy({ id: id });
+    if(!post) {
+      throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
+    };
+    await this.postsRepository.update(id, updatedPost);
     return { message: `Post with ID: ${id} updated` };
   };
 
