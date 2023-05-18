@@ -14,4 +14,8 @@ export class UsersService {
     return { message: 'New user created', user: newUser };
   };
 
+  async getAll() {
+    return await this.userRepository.find();
+  };
+
 };
