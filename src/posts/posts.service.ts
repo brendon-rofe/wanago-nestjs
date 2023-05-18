@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Post } from "./post.interface";
 import { CreatePostDto } from "./dto/createPost.dto";
 
@@ -25,6 +25,9 @@ export class PostsService {
 
   getById(id: number) {
     const post = this.posts.find(p => p.id === id);
+    if(!post) {
+      throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
+    };
     return post;
   };
 
