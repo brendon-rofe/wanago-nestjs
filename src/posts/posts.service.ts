@@ -23,7 +23,7 @@ export class PostsService {
     return this.posts;
   };
 
-  getById(id: number): Post {
+  getById(id: number) {
     const post = this.posts.find(p => p.id === id);
     return post;
   };
