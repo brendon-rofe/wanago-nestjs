@@ -35,8 +35,13 @@ export class PostsService {
     return { message: `Post with ID: ${id} updated` };
   };
 
-  removePost(id: number) {
-    return { message: `Post with ID: ${id} removed` };
+  async removePost(id: number) {
+    const post = await this.postsRepository.findOneBy({ id: id });
+    if(!post) {
+      throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
+    };
+    await this.postsRepository.delete(id);
+    return { message: `Post with ID: ${id} deleted` };
   };
 
 };
