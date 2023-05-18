@@ -18,8 +18,12 @@ export class PostsService {
     return await this.postsRepository.find();
   };
 
-  getById(id: number) {
-    return null;
+  async getById(id: number): Promise<Post> {
+    const post = await this.postsRepository.findOneBy({ id: id });
+    if(!post) {
+      throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+    return post;
   };
 
   updatePost(id: number, updatedPost: CreatePostDto) {
