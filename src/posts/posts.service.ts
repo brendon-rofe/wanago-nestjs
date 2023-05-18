@@ -14,8 +14,8 @@ export class PostsService {
     return { message: 'New post created', post: newPost };
   };
 
-  getAll(): Post[] {
-    return null;
+  async getAll() {
+    return await this.postsRepository.find();
   };
 
   getById(id: number) {
