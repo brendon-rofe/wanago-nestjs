@@ -8,8 +8,10 @@ import { Repository } from "typeorm";
 export class PostsService {
   constructor(@InjectRepository(Post) private postsRepository: Repository<Post>) {}
 
-  create(dto: CreatePostDto) {
-    return { message: 'New post created' };
+  async create(dto: CreatePostDto) {
+    const newPost = await this.postsRepository.create(dto);
+    await this.postsRepository.save(newPost);
+    return { message: 'New post created', post: newPost };
   };
 
   getAll(): Post[] {
