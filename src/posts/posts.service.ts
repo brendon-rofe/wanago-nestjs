@@ -32,14 +32,19 @@ export class PostsService {
     return post;
   };
 
-  updatePost(id: number, updatedPost: UpdatePostDto) {
+  updatePost(id: number, updatedPost: CreatePostDto) {
     const post = this.posts.find(p => p.id === id);
     if(!post) {
       throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
     };
     const indexOfPost = this.posts.indexOf(post);
-    this.posts[indexOfPost] = updatedPost;
-    return { message: `Post with ID: ${id} updated`, updatedPost };
+    const newPost: Post = {
+      id: id,
+      title: updatedPost.title,
+      content: updatedPost.content
+    };
+    this.posts[indexOfPost] = newPost;
+    return { message: `Post with ID: ${id} updated`, newPost };
   };
 
 };
