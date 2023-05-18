@@ -1,57 +1,30 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { Post } from "./post.interface";
 import { CreatePostDto } from "./dto/createPost.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Post } from "./post.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class PostsService {
-  
-  private nextPostId = 1;
-  private posts: Post[] = [];
+  constructor(@InjectRepository(Post) private postsRepository: Repository<Post>) {}
 
   create(dto: CreatePostDto) {
-    const newPost: Post = {
-      id: this.nextPostId,
-      title: dto.title,
-      content: dto.content
-    };
-    this.posts.push(newPost);
-    this.nextPostId++;
-    return { message: 'New post created', post: newPost };
+    return { message: 'New post created' };
   };
 
   getAll(): Post[] {
-    return this.posts;
+    return null;
   };
 
   getById(id: number) {
-    const post = this.posts.find(p => p.id === id);
-    if(!post) {
-      throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
-    };
-    return post;
+    return null;
   };
 
   updatePost(id: number, updatedPost: CreatePostDto) {
-    const post = this.posts.find(p => p.id === id);
-    if(!post) {
-      throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
-    };
-    const indexOfPost = this.posts.indexOf(post);
-    const newPost: Post = {
-      id: id,
-      title: updatedPost.title,
-      content: updatedPost.content
-    };
-    this.posts[indexOfPost] = newPost;
-    return { message: `Post with ID: ${id} updated`, newPost };
+    return { message: `Post with ID: ${id} updated` };
   };
 
   removePost(id: number) {
-    const post = this.posts.find(p => p.id === id);
-    if(!post) {
-      throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
-    };
-    this.posts = this.posts.filter(p => p.id !== id);
     return { message: `Post with ID: ${id} removed` };
   };
 
