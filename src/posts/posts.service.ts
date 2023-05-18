@@ -51,7 +51,7 @@ export class PostsService {
     if(!post) {
       throw new HttpException(`Post with ID: ${id} not found`, HttpStatus.NOT_FOUND);
     };
-    this.posts.filter(p => p.id !== id);
+    this.posts = this.posts.filter(p => p.id !== id);
     return { message: `Post with ID: ${id} removed` };
   };
 
