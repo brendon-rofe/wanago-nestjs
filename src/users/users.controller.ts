@@ -16,4 +16,9 @@ export class UsersController {
     return await this.usersService.getAll();
   };
 
+  @Get('email')
+  async getByEmail(@Body() email: string) {
+    return await this.usersService.getByEmail(email);
+  };
+
 };

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./user.entity";
 import { Repository } from "typeorm";
@@ -16,6 +16,13 @@ export class UsersService {
 
   async getAll() {
     return await this.userRepository.find();
+  };
+
+  async getByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+    if(!user){
+      throw new HttpException(`User with email: ${email} not found`, HttpStatus.NOT_FOUND);
+    };
   };
 
 };
