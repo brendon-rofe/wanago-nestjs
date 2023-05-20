@@ -23,6 +23,15 @@ export class UsersService {
     if(!user){
       throw new HttpException(`User with email: ${email} not found`, HttpStatus.NOT_FOUND);
     };
+    return user;
+  };
+
+  async getById(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if(!user){
+      throw new HttpException(`User with id: ${id} not found`, HttpStatus.NOT_FOUND);
+    };
+    return user;
   };
 
 };
