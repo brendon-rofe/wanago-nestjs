@@ -17,8 +17,8 @@ export class UsersController {
   };
 
   @Get('email')
-  async getByEmail(@Body() email: string) {
-    return await this.usersService.getByEmail(email);
+  async getByEmail(@Body() dto: any) {
+    return await this.usersService.getByEmail(dto);
   };
 
   @Get(':id')
