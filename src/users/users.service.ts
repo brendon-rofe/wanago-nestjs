@@ -23,7 +23,6 @@ export class UsersService {
     if(!user){
       throw new HttpException(`User with email: ${email} not found`, HttpStatus.NOT_FOUND);
     };
-    user.password = undefined;
     return user;
   };
 
