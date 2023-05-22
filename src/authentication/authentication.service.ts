@@ -20,14 +20,11 @@ export class AuthenticationService {
 
   async login(dto: LoginDto) {
     const user = await this.userService.getByEmail(dto.email);
-    if(dto.password === user.password) {
-      try {
-        return user;
-      } catch (error) {
-        throw new HttpException("User with that email not found", HttpStatus.NOT_FOUND);
-      };
+    if(dto.password !== user.password) {
+      throw new HttpException("Incorrect password porvided", HttpStatus.BAD_REQUEST);
     };
-    throw new HttpException("Incorrect password porvided", HttpStatus.BAD_REQUEST);
+    user.password = undefined;
+    return user;
   };
 
 };
