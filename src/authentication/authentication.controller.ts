@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Req, Res } from "@nestjs/common";
+import { Response } from "express";
 import { AuthenticationService } from "./authentication.service";
 import { RegisterDto } from "./dto/register.dto";
-import { LoginDto } from "./dto/login.dto";
+import { RequestWithUser } from "./requestWithUser.interface";
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -13,8 +14,13 @@ export class AuthenticationController {
   };
 
   @Post('login')
-  async login(@Body() loginData: LoginDto) {
-    return await this.authenticationService.getAuthenticatedUser(loginData.email, loginData.password);
+  async login(@Req() request: RequestWithUser, @Res() response: Response) {
+    console.log(request.body);
+    const user = request.body;
+    const cookie = this.authenticationService.getCookieWithJwtToken(user.id);
+    response.setHeader('Set-Cookie', cookie);
+    user.password = undefined;
+    return response.send(user);
   };
 
 };
