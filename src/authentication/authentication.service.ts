@@ -1,13 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { UsersService } from "src/users/users.service";
 import { RegisterDto } from "./dto/register.dto";
+import { JwtService } from "@nestjs/jwt";
 import PostgresErrorCode from "src/database/postgresErrorCode.enum";
-import { LoginDto } from "./dto/login.dto";
+import { TokenPayload } from "./tokenPayload.interface";
 import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private userService: UsersService) {};
+  constructor(private readonly userService: UsersService, private readonly jwtService: JwtService) {};
 
   async register(registerDto: RegisterDto) {
     const salt = await bcrypt.genSalt();
@@ -19,6 +20,12 @@ export class AuthenticationService {
         throw new HttpException("User with that email already exists", HttpStatus.BAD_REQUEST);
       };
     };
+  };
+
+  public getCookieWithJwtToken(userId: number) {
+    const payload: TokenPayload = { userId };
+    const token = this.jwtService.sign(payload);
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${process.env.JWT_EXPIRATION}`;
   };
 
   public async getAuthenticatedUser(email: string, plaintextPassword: string) {
