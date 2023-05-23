@@ -28,6 +28,10 @@ export class AuthenticationService {
     return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${process.env.JWT_EXPIRATION}`;
   };
 
+  public getCookieForLogout() {
+    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+  };
+
   public async getAuthenticatedUser(email: string, plaintextPassword: string) {
     try {
       const user = await this.userService.getByEmail(email);

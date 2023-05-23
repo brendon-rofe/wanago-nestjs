@@ -18,9 +18,15 @@ export class AuthenticationController {
     console.log(request);
     const user = request.body;
     const cookie = this.authenticationService.getCookieWithJwtToken(user.id);
-    response.setHeader('Set-Cookie', cookie);
+    response.setHeader("Set-Cookie", cookie);
     user.password = undefined;
     return response.send(user);
+  };
+
+  @Post('logout')
+  async logout(@Res() response: Response) {
+    response.setHeader("Set-Cookie", this.authenticationService.getCookieForLogout());
+    return response.sendStatus(200);
   };
 
 };
