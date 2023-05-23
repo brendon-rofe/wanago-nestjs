@@ -1,13 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, UseGuards } from "@nestjs/common";
 import { CreatePostDto } from "./dto/createPost.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Post } from "./post.entity";
 import { Repository } from "typeorm";
+import { JwtAuthenticationGuard } from "src/authentication/jwt-authentication.guard";
 
 @Injectable()
 export class PostsService {
   constructor(@InjectRepository(Post) private postsRepository: Repository<Post>) {}
 
+  @UseGuards(JwtAuthenticationGuard)
   async create(dto: CreatePostDto) {
     const newPost = await this.postsRepository.create(dto);
     await this.postsRepository.save(newPost);
@@ -26,6 +28,7 @@ export class PostsService {
     return post;
   };
 
+  @UseGuards(JwtAuthenticationGuard)
   async updatePost(id: number, updatedPost: CreatePostDto) {
     const post = await this.postsRepository.findOneBy({ id: id });
     if(!post) {
@@ -35,6 +38,7 @@ export class PostsService {
     return { message: `Post with ID: ${id} updated` };
   };
 
+  @UseGuards(JwtAuthenticationGuard)
   async removePost(id: number) {
     const post = await this.postsRepository.findOneBy({ id: id });
     if(!post) {
