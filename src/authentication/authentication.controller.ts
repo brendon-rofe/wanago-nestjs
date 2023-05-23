@@ -14,7 +14,7 @@ export class AuthenticationController {
 
   @Post('login')
   async login(@Body() loginData: LoginDto) {
-    
+    return await this.authenticationService.getAuthenticatedUser(loginData.email, loginData.password);
   };
 
 };

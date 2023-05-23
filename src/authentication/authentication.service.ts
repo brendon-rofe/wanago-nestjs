@@ -21,6 +21,16 @@ export class AuthenticationService {
     };
   };
 
+  public async getAuthenticatedUser(email: string, plaintextPassword: string) {
+    try {
+      const user = await this.userService.getByEmail(email);
+      await this.verifyPassword(plaintextPassword, user.password);
+      return user;
+    } catch(error) {
+      throw new HttpException("Wrong credential provided", HttpStatus.BAD_REQUEST);
+    };
+  };
+
   private async verifyPassword(plaintextPassword: string, hashedPassword: string) {
     const isPasswordMatching = await bcrypt.compare(plaintextPassword, hashedPassword);
     if(!isPasswordMatching) {
