@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PostEntity } from './post.entity';
 import { CreatePostDto } from './dtos/create-post.dto';
+import { UpdatePostDto } from './dtos/update-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -20,5 +21,10 @@ export class PostsService {
 
   async getById(id: number) {
     return await this.postRepo.findOneBy({ id });
+  };
+
+  async update(id: number, dto: UpdatePostDto) {
+    await this.postRepo.update(id, dto);
+    return await this.getById(id);
   };
 };
