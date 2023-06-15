@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dtos/create-post.dto';
 
@@ -8,6 +8,11 @@ export class PostsController {
 
   @Post()
   async create(@Body() post: CreatePostDto) {
-    await this.postsService.create(post);
+    return await this.postsService.create(post);
+  };
+
+  @Get(':id')
+  async getById(@Param('id') id: string) {
+    return await this.postsService.getById(parseInt(id));
   };
 };
