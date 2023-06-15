@@ -27,4 +27,9 @@ export class PostsService {
     await this.postRepo.update(id, dto);
     return await this.getById(id);
   };
+
+  async delete(id: number) {
+    await this.postRepo.delete({ id });
+    return { message: `Post with ID: ${id} successfully deleted` };
+  };
 };
