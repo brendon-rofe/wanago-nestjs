@@ -10,6 +10,11 @@ export class PostsController {
   async create(@Body() post: CreatePostDto) {
     return await this.postsService.create(post);
   };
+  
+  @Get()
+  async getAll() {
+    return await this.postsService.getAll();
+  }
 
   @Get(':id')
   async getById(@Param('id') id: string) {
