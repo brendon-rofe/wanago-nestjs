@@ -9,4 +9,4 @@ import { Post } from './post.entity';
   controllers: [PostsController],
   providers: [PostsService]
 })
-export class PostsModule {}
+export class PostsModule {};
