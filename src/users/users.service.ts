@@ -21,4 +21,12 @@ export class UsersService {
     };
     return user;
   };
+
+  async getById(id: number) {
+    const user = this.userRepo.findOneBy({ id });
+    if(!user) {
+      throw new HttpException(`User with ID: ${id} not found`, HttpStatus.NOT_FOUND);
+    };
+    return user;
+  };
 };
