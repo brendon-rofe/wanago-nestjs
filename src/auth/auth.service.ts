@@ -12,7 +12,7 @@ export class AuthService {
     try{
       const newUser = await this.usersService.create({
         ...dto,
-        password: hashedPassword
+        hash: hashedPassword
       });
       newUser.hash = undefined;
       return newUser;
